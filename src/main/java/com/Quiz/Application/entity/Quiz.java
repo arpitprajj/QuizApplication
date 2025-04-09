@@ -20,6 +20,10 @@ public class Quiz {
     private int id;
     private String title;
     private Date addedDate;
+
     @ManyToMany
     private List<Question>questions=new ArrayList<>();
+
+//    @OneToMany(mappedBy = "quiz",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+//    private List<StudentResponse>studentResponse=new ArrayList<>();
 }

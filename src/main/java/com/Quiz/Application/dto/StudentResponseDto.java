@@ -7,15 +7,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class QuestionDto {
-
+@NoArgsConstructor
+public class StudentResponseDto {
     private int id;
+    private int quizId;
+    private int studentId;
+    private int questionId;
     private String query;
-    private String option1;
-    private String option2;
-    private String option3;
-    private String option4;
-
+    private  String sel_option;
 }

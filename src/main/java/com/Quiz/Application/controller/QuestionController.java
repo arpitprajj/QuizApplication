@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/questions")
@@ -53,6 +55,14 @@ public class QuestionController {
     ResponseEntity<List<QuestionDto>>searchQuestion(@PathVariable String keyword){
         List<QuestionDto>dtoList=this.questionService.searchQuestions(keyword);
         return new ResponseEntity<>(dtoList,HttpStatus.FOUND);
+    }
+    @GetMapping("getAnswer/{id}")
+    ResponseEntity<Map<String,QuestionDto>>getAnswer(@PathVariable Integer id){
+        Map<String,QuestionDto>map=new HashMap<>();
+        QuestionDto questionDto=this.questionService.getQuestionById(id);
+        String answer=this.questionService.getAnswerByQuestionId(id);
+        map.put(answer,questionDto);
+        return new ResponseEntity<>(map,HttpStatus.FOUND);
     }
 
 }

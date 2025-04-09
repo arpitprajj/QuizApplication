@@ -48,7 +48,7 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public QuestionDto updateQuestionById(QuestionDto questionDto, Integer id) {
         Question question=this.questionRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Question","Question Id",id));
-        question.setAnswer(questionDto.getAnswer());
+
         question.setQuery(questionDto.getQuery());
         question.setOption1(questionDto.getOption1());
         question.setOption2(questionDto.getOption2());
@@ -69,5 +69,11 @@ public class QuestionServiceImpl implements QuestionService {
         List<Question>questionList=this.questionRepository.findByQueryContaining(keyword);
         List<QuestionDto>dtoList=questionList.stream().map(p->this.modelMapper.map(p,QuestionDto.class)).collect(Collectors.toList());
         return dtoList;
+    }
+
+    @Override
+    public String getAnswerByQuestionId(Integer id) {
+
+        return this.questionRepository.findAnswer(id);
     }
 }

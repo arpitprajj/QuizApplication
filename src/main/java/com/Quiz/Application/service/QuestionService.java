@@ -13,4 +13,6 @@ public interface QuestionService {
      QuestionDto updateQuestionById(QuestionDto questionDto,Integer id);
      void deleteQuestion(Integer id);
      List<QuestionDto>searchQuestions(String keyword);
+
+     String getAnswerByQuestionId(Integer id);
 }
