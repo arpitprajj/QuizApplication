@@ -1,20 +1,22 @@
 package com.Quiz.Application.service.impl;
 
+import com.Quiz.Application.dto.ResponseByStudent;
+import com.Quiz.Application.dto.ReviewDto;
 import com.Quiz.Application.dto.StudentResponseDto;
 import com.Quiz.Application.entity.Question;
 import com.Quiz.Application.entity.Quiz;
 import com.Quiz.Application.entity.Student;
 import com.Quiz.Application.entity.StudentResponse;
 import com.Quiz.Application.exception.ResourceNotFoundException;
-import com.Quiz.Application.repository.QuestionRepository;
-import com.Quiz.Application.repository.QuizRepository;
-import com.Quiz.Application.repository.StudentRepository;
-import com.Quiz.Application.repository.StudentResponseRepository;
+import com.Quiz.Application.repository.*;
+import com.Quiz.Application.service.AnswerService;
+import com.Quiz.Application.service.QuestionService;
 import com.Quiz.Application.service.StudentResponseService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -31,6 +33,9 @@ public class StudentResponseServiceImpl implements StudentResponseService {
 
     @Autowired
     StudentRepository studentRepository;
+
+    @Autowired
+    QuestionService questionService;
 
     @Autowired
     ModelMapper modelMapper;
@@ -74,5 +79,28 @@ public class StudentResponseServiceImpl implements StudentResponseService {
     public List<StudentResponse> getResponses() {
         List<StudentResponse> studentResponse=responseRepository.findAll();
         return studentResponse;
+    }
+
+    @Override
+    public ResponseByStudent getResponseOfStudent(Integer stdId, Integer quizId) {
+        Student student=this.studentRepository.findById(stdId).orElseThrow(()->new ResourceNotFoundException("Student","Student Id",stdId));
+        List<StudentResponse>studentResponses=this.responseRepository.findByStudent(student);
+        ResponseByStudent responseByStudent=new ResponseByStudent();
+        responseByStudent.setStdId(stdId);
+        responseByStudent.setEmail(student.getEmailId());
+        responseByStudent.setQuizId(quizId);
+        List<ReviewDto>review=new ArrayList<>();
+        for(StudentResponse res:studentResponses){
+            ReviewDto reviewDto=new ReviewDto();
+
+            int questId=res.getQuestion().getId();
+            reviewDto.setQuestionId(questId);
+            reviewDto.setQuery(res.getQuestion().getQuery());
+            reviewDto.setSelOption(res.getSelected_option());
+            reviewDto.setCorOption(questionService.getAnswerByQuestionId(questId));
+            review.add(reviewDto);
+        }
+        responseByStudent.setReviewDtos(review);
+        return responseByStudent;
     }
 }

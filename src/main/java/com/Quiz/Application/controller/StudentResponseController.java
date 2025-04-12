@@ -1,5 +1,6 @@
 package com.Quiz.Application.controller;
 
+import com.Quiz.Application.dto.ResponseByStudent;
 import com.Quiz.Application.dto.StudentResponseDto;
 import com.Quiz.Application.entity.StudentResponse;
 import com.Quiz.Application.service.StudentResponseService;
@@ -29,5 +30,10 @@ public class StudentResponseController {
         List<StudentResponse>studentResponses=this.responseService.getResponses();
         return new ResponseEntity<>(studentResponses,HttpStatus.FOUND);
 
+    }
+    @GetMapping("{stdId}/{quizId}")
+    ResponseEntity<ResponseByStudent>getResponseOfStudent(@PathVariable Integer stdId,@PathVariable Integer quizId){
+        ResponseByStudent responseByStudent=this.responseService.getResponseOfStudent(stdId,quizId);
+        return new ResponseEntity<>(responseByStudent,HttpStatus.FOUND);
     }
 }

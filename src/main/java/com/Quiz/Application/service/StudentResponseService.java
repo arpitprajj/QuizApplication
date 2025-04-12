@@ -1,5 +1,6 @@
 package com.Quiz.Application.service;
 
+import com.Quiz.Application.dto.ResponseByStudent;
 import com.Quiz.Application.dto.StudentResponseDto;
 import com.Quiz.Application.entity.StudentResponse;
 
@@ -10,4 +11,6 @@ public interface StudentResponseService {
   StudentResponseDto createResponse(Integer stdId,Integer quizId,Integer questionId,String selOption);
 
   List<StudentResponse>getResponses();
+
+  ResponseByStudent getResponseOfStudent(Integer stdId, Integer quizId);
 }
