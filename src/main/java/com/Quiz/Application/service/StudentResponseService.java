@@ -9,5 +9,5 @@ public interface StudentResponseService {
 
   StudentResponseDto createResponse(Integer stdId,Integer quizId,Integer questionId,String selOption);
 
-  List<StudentResponseDto>getResponses();
+  List<StudentResponse>getResponses();
 }

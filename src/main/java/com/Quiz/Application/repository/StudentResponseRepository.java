@@ -11,7 +11,7 @@ public interface StudentResponseRepository extends JpaRepository<StudentResponse
 
 
     @Query(value = "SELECT COUNT(*) FROM student_response WHERE student_id = :studentId AND quiz_id = :quizId AND question_id = :questionId", nativeQuery = true)
-    int countByStudentIdQuizIdAndQuestionId(@Param("studentId") Long studentId,
-                                            @Param("quizId") Long quizId,
-                                            @Param("questionId") Long questionId);
+    int countByStudentIdQuizIdAndQuestionId(@Param("studentId") Integer studentId,
+                                            @Param("quizId") Integer quizId,
+                                            @Param("questionId") Integer questionId);
 }

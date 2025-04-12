@@ -15,4 +15,10 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(msg, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(IllegalStateException.class)
+    ResponseEntity<String>illegalStateExceptionHandler(IllegalStateException ex){
+        String msg= ex.getMessage();
+        return new ResponseEntity<>(msg,HttpStatus.BAD_REQUEST);
+    }
+
 }

@@ -44,6 +44,14 @@ public class StudentResponseServiceImpl implements StudentResponseService {
         Quiz quiz=this.quizRepository.findById(quizId).orElseThrow(()->new ResourceNotFoundException("Quiz","quiz id",quizId));
         Student student=this.studentRepository.findById(stdId).orElseThrow(()->new ResourceNotFoundException("Student","Student id",stdId));
         Question question=this.questionRepository.findById(questionId).orElseThrow(()->new ResourceNotFoundException("Question ","question id",questionId));
+
+        int  exists = responseRepository.countByStudentIdQuizIdAndQuestionId(
+                stdId,quizId,questionId
+        );
+
+        if (exists>0) {
+            throw new IllegalStateException("This student has already submitted a response for this question in this quiz.");
+        }
         StudentResponse studentResponse=new StudentResponse();
         studentResponse.setQuiz(quiz);
         studentResponse.setStudent(student);
@@ -63,7 +71,8 @@ public class StudentResponseServiceImpl implements StudentResponseService {
     }
 
     @Override
-    public List<StudentResponseDto> getResponses() {
-        return List.of();
+    public List<StudentResponse> getResponses() {
+        List<StudentResponse> studentResponse=responseRepository.findAll();
+        return studentResponse;
     }
 }
